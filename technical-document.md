@@ -30,6 +30,31 @@ to track live races in progress._
 * **Real Time Race Data Processor**: This service will listen for message queue's messages save them into permanent data store(MongoDB) and also save the latest
 location into in memory cache(Redis) to be used later by "real time race data provider".
 
+### Design Description:
+
+During the system design phase, special attention was given to ensuring scalability to accommodate the anticipated user load.
+Recognizing the diversity of user roles within the platform, a dedicated service was implemented to handle user management tasks,
+such as authentication, sign-up, and related functionalities.
+
+To address the specific needs of race-related operations, a separate service was devised for race management. 
+This design choice allows for independent scalability, ensuring efficient handling of past races, statistical data, 
+and the creation of new races.
+
+The core of the system involves real-time race data processing, responding to dynamic updates and user interaction. 
+The mobile app smoothly transmits real-time location data to a designated service, which, in turn, used a message queue to streamline processing.
+To enable easy scalability and keep things simple, we've designed the real-time race tracker service to start with just one instance for each race.
+
+To handle the processed data, a dedicated service retrieves messages from the queue, stores them in a database for future statistical analysis,
+and maintains the latest locations in an in-memory cache (Redis) to enable real-time data presentation. 
+The race data processor service is designed for independent scaling, ensuring rapid and efficient message processing.
+
+Another service, responsible for delivering real-time race data to clients, is then created. 
+This service is designed for independent scalability and uses long polling or web sockets to communicate with the client-side web app. 
+This approach ensures timely and synchronized delivery of real-time updates to users.
+
+
+We chose MongoDB, a NoSQL database, because it scales well horizontally, handles different loads easily, 
+and suits our system's needs for smooth scalability and efficient data management.
 
 ## Technology Stack
 
