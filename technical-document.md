@@ -17,10 +17,10 @@ Managing multiple real-time races simultaneously without compromising performanc
 ## High Level Architecture Design
 ![High Level Architecture Diagram](/assets/diagram-placeholder.jpg)
 
-### **__The high-level architecture comprises following components__**
+### **__The high-level architecture comprises following components:__**
 
-* **Web Based Client Application**: Using this app people can log in and check the stats from past races and has the ability 
-to track live races in progress.
+* **Web Based Client Application**: _Using this app people can log in and check the stats from past races and has the ability 
+to track live races in progress._
 * **Web-based backend consisting of following microservices**
   * **User management service**: This service is responsible for user login/signup and role management.
   * **Race management service**: This service is responsible for creation of new races and showing statistics from old races.
