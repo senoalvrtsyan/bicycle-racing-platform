@@ -26,9 +26,9 @@ to track live races in progress._
   * **Race management service**: This service is responsible for creation of new races and showing statistics from old races.
   * **Real time race data provider**: This service responsible for providing real time location of race participants.
 * **Mobile Application**: This app will be responsible for sending racer's real time location to server.
-* **Real Time Race Tracker Server**: This service will accept the real time location of racer and push this data to message queue._
-* **Real Time Race Data Processor**: This service will listen for message queue's messages save them into permanent data store(MongoDB) and also save the latest
-location into in memory cache(Redis) to be used later by "real time race data provider".
+* **Real Time Race Tracker Server**: This service will accept the real time location of racer and push this data to message queue.
+* **Real Time Race Data Processor**: This service will listen for message queue's messages, save them into permanent data store(MongoDB) and also save the latest
+location into in memory cache(Redis) to be used later by "real time race data provider" service.
 
 ### Design Description:
 
@@ -60,20 +60,20 @@ and suits our system's needs for smooth scalability and efficient data managemen
 
 | Component               | Technology                                             |
 |-------------------------|--------------------------------------------------------|
-| Web based backend       | Node.js                                                |
+| Web based backend       | Node.js (Express.js)                                   |
 | Web based client        | React.js                                               |
 | Mobile app              | React Native                                           |
 | Database                | MongoDB                                                |
 | Mobile app              | React Native                                           |
-| In memory cache         | Redis                                                  |
-| Message Queue           | Google PubSub                                          |
+| In memory cache         | GCP MemoryStore (Redis)                                |
+| Message Queue           | GCP PubSub                                             |
 | Communication protocols | HTTPS (Web client and backend), WS (Mobile and Server) |
 
 ## Deployment plan
 The entire system mostly will be orchestrated and supported by various Google Cloud Platform services.
-  * Kubernetes engine for orchestrating Dockerized containers 
+  * Kubernetes engine for orchestrating Dockerized containers.
   * Utilize a content delivery network (CDN) for hosting the client-side application. 
-  * Mongo Atlas will be employed for efficient MongoDB operations 
+  * Mongo Atlas will be employed for efficient MongoDB operations.
   * In Memory Store from GCP will be used as a cache.
 
 ## Capacity Estimation
@@ -93,6 +93,8 @@ The entire system mostly will be orchestrated and supported by various Google Cl
 | Number of Users (monthly)   | 100,000     |
 | Estimated User Data Size    | 21.8 MB     |
 
+<br/>
+
 ### Race Data:
 | Data Field                               | Size (bytes)        |
 |------------------------------------------|---------------------|
@@ -108,6 +110,8 @@ The entire system mostly will be orchestrated and supported by various Google Cl
 |-----------------------------|-------------|
 | Number of Races (monthly)   | 500         |
 | Estimated Race Data Size    | 6.126 MB    |
+
+<br/>
 
 ### Real-Time Tracking Data:
 | Data Field                            | Size (bytes) |
@@ -126,7 +130,9 @@ The entire system mostly will be orchestrated and supported by various Google Cl
 | Number of Updates per Participant (avg.)  | 100         |
 | Estimated Tracking Update Data Size       | 800 MB      |
 
-### Monthly Summary
+<br/>
+
+### Summary for monthly 100.000 users and 500 races
 | Metric                                | Value     |
 |---------------------------------------|-----------|
 | Total Storage Requirement (monthly)   | 28.726 MB |
@@ -140,53 +146,35 @@ The entire system mostly will be orchestrated and supported by various Google Cl
 - **Cloud Provider:** Google Cloud Platform (GCP)
 - **Regions:** Standard region (e.g., us-central1)
 - **Instance Types:** Standard instance types (e.g., n1-standard-2)
-- **Managed Services:** MongoDB Atlas for MongoDB, Cloud Memorystore for Redis
+- **Managed Services:** Mongo Atlas for managed MongoDB, Cloud Memorystore for Redis
 
-### Compute Costs
-
-#### Web-Based Backend Microservices:
+#### Compute Costs
 - **User Management Service:** 2 instances
 - **Race Management Service:** 2 instances
-- **Real-Time Race Data Provider:** 2 instances
-
-#### Mobile Application:
-- Minimal server-side components
-
-#### Real-Time Race Tracker Server:
-- 1 instance per race
-
-#### Real-Time Race Data Processor:
-- 2 instances
-
-#### Real-Time Data Delivery Service:
-
-- 2 instances for delivery
+- **Real-Time Race Data Provider:** 2 instances 
+- **Real-Time Race Tracker Server**: 1 instance per race
+- **Real-Time Race Data Provider**: 1 instance per race
 
 #### Database and Cache Costs
-
 - MongoDB: Utilize MongoDB Atlas with a basic configuration
 - Redis: Utilize Cloud Memorystore
 
 #### Data Transfer Costs
-
-- Assume average data transfer based on the number of users and real-time updates
+- Average data transfer based on the number of users and real-time updates
 - $0.12 per GB for data transfer
 
 ### Monthly Cost Estimates
 
 1. **Compute Costs:**
-  - GCP Compute Engine (instances): $2000 - $3000
-  - GCP Kubernetes Engine (for orchestration): $500 - $1000
-
+   - GCP Compute Engine (instances): $2000 - $3000
+   - GCP Kubernetes Engine (for orchestration): $500 - $1000
 2. **Managed Services:**
-  - MongoDB Atlas: $100 - $200
-  - Cloud Memorystore (Redis): $50 - $100
-
+    - MongoDB Atlas: $100 - $200
+    - Cloud Memorystore (Redis): $50 - $100
 3. **Data Transfer Costs:**
-  - Assume $0.12 per GB for data transfer: $200 - $300
+    - $0.12 per GB for data transfer: $200 - $300
 
-4. **Total Estimated Monthly Cost:**
-  - Sum of the above estimates: $2850 - $4400
+### **Total Estimated Monthly Cost:** $2850 - $4400
 
 --------------------------------------
 ![Scopic Software](/assets/footer.png)
