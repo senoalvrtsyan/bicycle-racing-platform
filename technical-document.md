@@ -1,6 +1,29 @@
 # Bicycle Racing Platform
 
-## Challenges
+## Table of Contents
+1. [Biggest Challenges](#biggest-challenges)
+2. [High-Level Architecture Design](#high-level-architecture-design)
+   1. [Components list:](#components-list)
+   2. [Design Description](#design-description)
+3. [Technology Stack](#technology-stack)
+4. [Deployment plan](#deployment-plan)
+5. [Capacity Estimation](#capacity-estimation)
+    1. [User Data Structure](#user-data-structure)
+    2. [User Data Estimates (monthly)](#user-data-estimates-monthly)
+    3. [Race Data](#race-data)
+    4. [Race Data Estimates (monthly)](#race-data-estimates-monthly)
+    5. [Real-Time Tracking Data](#real-time-tracking-data)
+    6. [Tracking Data Estimates (monthly)](#tracking-data-estimates-monthly)
+    7. [Summary for monthly 100.000 users and 500 races](#summary-for-monthly-100000-users-and-500-races)
+6. [Runtime Cost Analysis (Monthly Cost Estimate)](#runtime-cost-analysis-monthly-cost-estimate)
+    1. [Assumptions](#assumptions)
+    2. [Compute Costs](#compute-costs)
+    3. [Database and Cache Costs](#database-and-cache-costs)
+    4. [Data Transfer Costs](#data-transfer-costs)
+    5. [Total Estimated Monthly Cost (No Users, No Races)](#total-estimated-monthly-cost-no-users-no-races)
+    6. [Total Estimated Monthly Cost for Scale-Up (100,000 Users, 500 Races)](#total-estimated-monthly-cost-for-scale-up-100000-users-500-races)
+
+## Biggest Challenges
 
 **1. Real-time Tracking:** \
 Ensuring accurate and real-time tracking of racers during live events, considering up to 50 participants per race.
@@ -17,7 +40,7 @@ Managing multiple real-time races simultaneously without compromising performanc
 ## High Level Architecture Design
 ![High Level Architecture Diagram](/assets/diagram-placeholder.png)
 
-### **__The high-level architecture comprises following components:__**
+### **Components list**
 
 * **Web Based Client Application**: _Using this app people can log in and check the stats from past races and has the ability 
 to track live races in progress._
@@ -77,7 +100,7 @@ The entire system mostly will be orchestrated and supported by various Google Cl
   * In Memory Store from GCP will be used as a cache.
 
 ## Capacity Estimation
-### User Data
+#### User Data Structure:
 | Data Field              | Size (bytes) |
 |-------------------------|--------------|
 | User ID                 | 4            |
@@ -87,7 +110,7 @@ The entire system mostly will be orchestrated and supported by various Google Cl
 | Profile Information     | 100          |
 | **Total Size per User** | **218**      |
 
-### User Data Estimates (monthly):
+#### User Data Estimates (monthly):
 | Parameter                   | Value       |
 |-----------------------------|-------------|
 | Number of Users (monthly)   | 100,000     |
@@ -95,7 +118,7 @@ The entire system mostly will be orchestrated and supported by various Google Cl
 
 <br/>
 
-### Race Data:
+#### Race Data Structure:
 | Data Field                               | Size (bytes)        |
 |------------------------------------------|---------------------|
 | Race ID                                  | 4                   |
@@ -105,7 +128,7 @@ The entire system mostly will be orchestrated and supported by various Google Cl
 | Race Statistics                          | 50                  |
 | **Total Size per Race**                  | **12,252**          |
 
-### Race Data Estimates (monthly):
+#### Race Data Estimates (monthly):
 | Parameter                   | Value       |
 |-----------------------------|-------------|
 | Number of Races (monthly)   | 500         |
@@ -113,7 +136,7 @@ The entire system mostly will be orchestrated and supported by various Google Cl
 
 <br/>
 
-### Real-Time Tracking Data:
+#### Real-Time Tracking Data:
 | Data Field                            | Size (bytes) |
 |---------------------------------------|--------------|
 | Race ID                               | 4            |
@@ -122,7 +145,7 @@ The entire system mostly will be orchestrated and supported by various Google Cl
 | GPS Coordinates (Latitude, Longitude) | 16           |
 | **Total Size per Update**             | **32**       |
 
-### Tracking Data Estimates (monthly):
+#### Tracking Data Estimates (monthly):
 | Parameter                                 | Value       |
 |-------------------------------------------|-------------|
 | Number of Races (monthly)                 | 500         |
