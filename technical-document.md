@@ -149,32 +149,31 @@ The entire system mostly will be orchestrated and supported by various Google Cl
 - **Managed Services:** Mongo Atlas for managed MongoDB, Cloud Memorystore for Redis
 
 #### Compute Costs
-- **User Management Service:** 2 instances
-- **Race Management Service:** 2 instances
-- **Real-Time Race Data Provider:** 2 instances 
-- **Real-Time Race Tracker Server**: 1 instance per race
-- **Real-Time Race Data Provider**: 1 instance per race
+- **User Management Service:** 1 instance - (100-150)$
+- **Race Management Service:** 1 instances - (100-150)$
+- **Real-Time Race Data Provider:** 1 instances - (100-150)$
+- **Real-Time Race Tracker Server**: 0 instance (No Races) - 0$ 
+- **Real-Time Race Data Provider**: 1 instance - (100-150)$
 
 #### Database and Cache Costs
-- MongoDB: Utilize MongoDB Atlas with a basic configuration
-- Redis: Utilize Cloud Memorystore
+- MongoDB: Utilize MongoDB Atlas with a basic configuration - (50-100)$
+- Redis: Utilize Cloud Memorystore - (20-50)$
 
 #### Data Transfer Costs
 - Average data transfer based on the number of users and real-time updates
-- $0.12 per GB for data transfer
+- Estimated at (50-100)$.
 
-### Monthly Cost Estimates
+### Total Estimated Monthly Cost (No Users, No Races)
+ - Base Cost: $470 - $850
+   - This includes a minimal setup with one instance for each service to maintain the infrastructure when there are no active users or races. \
+   - The reduced base cost reflects the minimal resources needed in the absence of user activity.
 
-1. **Compute Costs:**
-   - GCP Compute Engine (instances): $2000 - $3000
-   - GCP Kubernetes Engine (for orchestration): $500 - $1000
-2. **Managed Services:**
-    - MongoDB Atlas: $100 - $200
-    - Cloud Memorystore (Redis): $50 - $100
-3. **Data Transfer Costs:**
-    - $0.12 per GB for data transfer: $200 - $300
-
-### **Total Estimated Monthly Cost:** $2850 - $4400
+### Total Estimated Monthly Cost for Scale-Up (100,000 Users, 500 Races):
+ - For this amount of load, we'll need to have at least 2 instances for User/Race managements services, per race we'll have \
+1 instance of real time race tracker server and at least 2 instances of real time race data provider. **Overall it will be (2000-3500)$**.
+ - **Note:** The scaling cost is incremental and can be added for each subsequent scale-up beyond the initial 100,000 users and 500 races.
+The number of instances for the Real-Time Race Tracker Server and Real-Time Race Data Processor is based on the assumption of one instance per race. 
+Adjustments may be needed based on actual usage patterns and system performance.
 
 --------------------------------------
 ![Scopic Software](/assets/footer.png)
